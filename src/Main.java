@@ -2,6 +2,11 @@ import designpattern.abstractFactory.app.Application;
 import designpattern.abstractFactory.factories.ITransportFactory;
 import designpattern.abstractFactory.factories.NineNineTransport;
 import designpattern.abstractFactory.factories.UberTransport;
+import designpattern.builder.builders.CarBuilder;
+import designpattern.builder.builders.TruckBuilder;
+import designpattern.builder.cars.Car;
+import designpattern.builder.cars.Truck;
+import designpattern.builder.director.Director;
 import designpattern.factory.BikeTransport;
 import designpattern.factory.CarTransport;
 import designpattern.factory.MotorCicleTransport;
@@ -26,11 +31,31 @@ public class Main {
     }
 
     public static void main(String args[]){
+        //Builder
+        System.out.println("--------Builder---------");
+
+        Director director = new Director();
+        CarBuilder carBuilder = new CarBuilder();
+        director.constructSedanCar(carBuilder);
+        Car car = carBuilder.getResult();
+        System.out.println(car.getCarType() + " Produzindo com sucesso");
+
+        TruckBuilder truckBuilder = new TruckBuilder();
+        director.constructTruckCar(truckBuilder);
+        Truck truck = truckBuilder.getResult();
+        System.out.println(truckBuilder.getResult());
+
+        director.constructSportCar(carBuilder);
+        Car sportCar = carBuilder.getResult();
+
+        System.out.println("--------Abstract Factory---------");
         //AbstractFactory
         Application app = configureApplication();
         app.startRoute();
 
         //Factory method
+        System.out.println("--------Factory method---------");
+
         configure(args[0]);
         if (transport != null){
             runTransport();
